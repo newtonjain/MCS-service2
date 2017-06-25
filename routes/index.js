@@ -18,8 +18,10 @@ router.get('/meeting', function (req, res) {
 
 
 /* POST Create example request */
-router.post('/meeting2', function (req, res) {
-    var accessToken = req.cookies['access_token'];
+router.get('/meeting2', function (req, res) {
+
+    var accessToken = req.query.accesstoken;
+     var text = req.query.text;
 
     // Render the API response with the created links or with error output
     var createResultCallback = function (error, httpResponse, body) {
@@ -30,31 +32,11 @@ router.post('/meeting2', function (req, res) {
             });
         }
 
-        // Parse the body since it is a JSON response
-        var parsedBody;
-        try {
-            parsedBody = JSON.parse(body);
-        } catch (e) {
-            parsedBody = {};
-        }
-        // Get the submitted resource url from the JSON response
-        var resourceUrl = parsedBody['links'] ? parsedBody['links']['oneNoteWebUrl']['href'] : null;
-
-        if (resourceUrl) {
-            res.render('result', {
-                title: 'OneNote API Result',
-                body: body,
-                resourceUrl: resourceUrl
-            });
-        } else {
-            res.render('error', {
-                message: 'OneNote API Error',
-                error: {status: httpResponse.statusCode, details: body}
-            });
-        }
     };
 
-   createExamples.createPageWithSimpleText(accessToken, createResultCallback);
+    console.log('here are the values', accessToken, text);
+
+   createExamples.jarvisCreatePageWithSimpleText(accessToken, createResultCallback, text);
 
 });
 
@@ -64,7 +46,7 @@ router.post('/meeting2', function (req, res) {
 router.post('/', function (req, res) {
     var accessToken = req.cookies['access_token'];
     var exampleType = req.body['submit'];
-
+    console.log("MY ACCESS ToKEN "+ accessToken);
     // Render the API response with the created links or with error output
     var createResultCallback = function (error, httpResponse, body) {
         if (error) {
