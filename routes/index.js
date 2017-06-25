@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var summarize = require ("text-summary");
 var liveConnect = require('../lib/liveconnect-client');
 var createExamples = require('../lib/create-examples');
 
@@ -35,9 +35,16 @@ router.post('/meeting2', function (req, res) {
 
     };
 
+
+var numberSentences = 3;
+
+var summary = summarize.summary(text, numberSentences);
+
+console.log(summary);
+
     console.log('here are the values', accessToken, text);
 
-   createExamples.jarvisCreatePageWithSimpleText(accessToken, createResultCallback, text);
+   createExamples.jarvisCreatePageWithSimpleText(accessToken, createResultCallback, text, summary);
    res.send('Thank you')
 
 });
