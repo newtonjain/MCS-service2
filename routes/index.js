@@ -18,10 +18,11 @@ router.get('/meeting', function (req, res) {
 
 
 /* POST Create example request */
-router.get('/meeting2', function (req, res) {
+router.post('/meeting2', function (req, res) {
 
-    var accessToken = req.query.accesstoken;
-     var text = req.query.text;
+    var accessToken = req.body.accesstoken;
+     var text = req.body.text;
+     console.log('SAV just sent me//// ', req.body);
 
     // Render the API response with the created links or with error output
     var createResultCallback = function (error, httpResponse, body) {
@@ -37,6 +38,7 @@ router.get('/meeting2', function (req, res) {
     console.log('here are the values', accessToken, text);
 
    createExamples.jarvisCreatePageWithSimpleText(accessToken, createResultCallback, text);
+   res.send('Thank you')
 
 });
 
